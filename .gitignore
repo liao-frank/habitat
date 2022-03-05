@@ -128,3 +128,5 @@ output
 .pnp.*
 
 .DS_Store
+
+habitat.json

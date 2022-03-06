@@ -1,18 +1,19 @@
-import { ensureClient } from '@lib/ensureClient'
-import { EnsureClientData } from '@myTypes/ensureData'
+import { enforceClient } from './client'
+import { EnforceClientData } from '@myTypes/enforceData'
 
 export class Habitat {
   constructor(config: HabitatConfig) {
-    this.ensureClients(config.clients)
+    this.enforceClients(config.clients)
   }
 
-  ensureClients(datas: EnsureClientData[]) {
+  enforceClients(datas: EnforceClientData[]) {
     for (const data of datas) {
-      ensureClient(data)
+      enforceClient(data)
     }
   }
 }
 
 export interface HabitatConfig {
-  clients: EnsureClientData[]
+  clients: EnforceClientData[]
+  roles: undefined // TODO: EnforceRoleData[]
 }

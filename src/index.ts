@@ -1,2 +1,2 @@
 export * from './habitat'
-export * from './types/ensureData'
+export * from './types/enforceData'

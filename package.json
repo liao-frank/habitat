@@ -36,6 +36,7 @@
   },
   "alias": {
     "@lib/*": "./src/lib/$1",
-    "@habitat": "./src"
+    "@habitat": "./src",
+    "@myTypes/*": "./src/types/$1"
   }
 }

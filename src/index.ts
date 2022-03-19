@@ -1,2 +1,5 @@
+export * from './client'
+export * from './command'
 export * from './habitat'
+export * from './role'
 export * from './types/enforceData'

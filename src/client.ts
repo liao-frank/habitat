@@ -1,11 +1,12 @@
+import { REST } from '@discordjs/rest'
+import { Habitat } from '@habitat'
 import { EnforceClientData } from '@myTypes/enforceData'
+import { RESTGetAPIOAuth2CurrentApplicationResult } from 'discord-api-types/v9'
+import { Routes } from 'discord-api-types/v9'
 import { Client, ClientOptions, ClientUser, Intents } from 'discord.js'
 import memoize from 'lodash/memoize'
-import { Habitat } from '@habitat'
+
 import { enforceCommands } from './command'
-import { RESTGetAPIOAuth2CurrentApplicationResult } from 'discord-api-types/v9'
-import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
 
 export const enforceClient = async (
   data: EnforceClientData,
@@ -38,6 +39,8 @@ const maybeCreateClient = memoize(
     const client = new Client(options)
 
     client.login(token)
+
+    // NOTE: Wait for the client to be ready before returning.
     await getClientUser(client)
 
     return client

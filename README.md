@@ -58,17 +58,17 @@ Note: Enforcement usually only runs when the server is started and when bots are
 
 ### Client setup
 
-The goal of the library is help manage an environment of multiple bots. It will be important to give each bot client the appropriate scopes/permissions in order for them to work with _Habitat.js_.
+Bots will need to manage the server and each other, so it will be important to give each client the appropriate scopes/permissions in order for them to work with _Habitat.js_.
 
 The admin client is in charge of managing guild enforcement, or server setup, and needs the following scopes and permissions.
 
 ![Client permissions](docs/permissions.png)
 
-All other clients require the same scopes as the admin client. However, they don't need to ask for any permissions since the admin bot will manage those later.
+All other clients require the same scopes as the admin client; however, they don't need to ask for any permissions since the admin bot will manage those later.
 
 #### Inviting
 
-After setting up the admin client, invite the bot to your server. From within your server, run the `/setup` command to get help on inviting your other bots.
+After setting up the admin client, invite its bot to your server. From within your server, run the `/setup` command to get help on inviting your other bots.
 
 ## Development
 

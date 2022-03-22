@@ -1,21 +1,21 @@
-import { EnforceCommandData } from '@myTypes/enforceData'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import {
-  Client,
-  Interaction,
-  PermissionResolvable,
-  Permissions,
-} from 'discord.js'
+import { REST } from '@discordjs/rest'
 import {
   Habitat,
   getClientUser,
   getFullClientName,
   getInviteUri,
 } from '@habitat'
-import { REST } from '@discordjs/rest'
+import { EnforceCommandData } from '@myTypes/enforceData'
+import { Routes } from 'discord-api-types/v9'
+import {
+  Client,
+  Interaction,
+  PermissionResolvable,
+  Permissions,
+} from 'discord.js'
 import memoize from 'lodash/memoize'
 import { v5 as uuidv5 } from 'uuid'
-import { Routes } from 'discord-api-types/v9'
 
 const clientToDatasMap = new Map<Client, EnforceCommandData[]>()
 
@@ -61,9 +61,10 @@ const getSingletonHandler = memoize(
         }
       }
 
-      // If no handler was found, reply with basic message and throw.
+      // If no handler was found, reply with basic message and throw. Though,
+      // this should never happen.
       interaction.reply({
-        content: '',
+        content: '', // TODO: Add basic message.
         ephemeral: true,
       })
       throw new Error(
@@ -84,7 +85,7 @@ const getSingletonHandler = memoize(
 export const SETUP_COMMAND: EnforceCommandData = {
   command: new SlashCommandBuilder()
     .setName('setup')
-    .setDescription('Manually run server setup for Habitat.js'),
+    .setDescription('Manually runs server setup for Habitat.js'),
   handler: async (interaction, habitat) => {
     const { guild } = interaction
     const permissions = interaction.memberPermissions || new Permissions()
@@ -112,9 +113,15 @@ export const SETUP_COMMAND: EnforceCommandData = {
 
     await interaction.deferReply({ ephemeral: true })
 
-    const missingUsers = (await habitat.getClientUsers()).filter(
-      (user) => !guild.members.resolve(user)
-    )
+    const users = await habitat.getClientUsers()
+    const missingUsers = []
+
+    for (const user of users) {
+      const missing = !(await guild.members.fetch(user))
+      if (missing) {
+        missingUsers.push(user)
+      }
+    }
 
     if (missingUsers.length) {
       const uris = await Promise.all(

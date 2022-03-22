@@ -1,7 +1,10 @@
+import 'dotenv/config'
+
 import { Habitat, SETUP_COMMAND } from '@habitat'
 
-const adminToken = 'OTU0MTA1Nzg5ODQ3NTg4OTI0.YjOSQg.1iYhTQlSqV_H72Xk0SB4nNs8b4s'
-const testToken = 'OTQ5NTU1NDUzMTUzNjY1MDM1.YiMEbQ.nQ1c1d6qTYaDatUbXpHUWL4O_5k'
+// Create tokens and fill them in here.
+const adminToken = process.env.ADMIN_TOKEN || ''
+const testToken1 = process.env.TEST_TOKEN_1 || ''
 
 const habitat = new Habitat({
   admin: {
@@ -13,9 +16,9 @@ const habitat = new Habitat({
   },
   clients: [
     {
-      token: testToken,
+      token: testToken1,
       userData: {
-        username: 'I Robot',
+        username: 'I Not Robot',
       },
     },
   ],

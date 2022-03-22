@@ -1,11 +1,11 @@
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { Habitat } from '@habitat'
 import {
   ClientOptions,
   ClientUserEditData,
   CommandInteraction,
   PartialRoleData,
 } from 'discord.js'
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { Habitat } from '@habitat'
 
 export interface EnforceClientData {
   commands?: EnforceCommandData[]

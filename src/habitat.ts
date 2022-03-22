@@ -1,13 +1,14 @@
-import { enforceClient, getClientUser } from './client'
 import { EnforceClientData } from '@myTypes/enforceData'
 import { Client, ClientUser, Guild } from 'discord.js'
+
+import { enforceClient, getClientUser } from './client'
 
 export class Habitat {
   readonly config: HabitatConfig
   private readonly clientsPromise: Promise<Client[]>
 
   constructor(config: HabitatConfig) {
-    this.config = config
+    this.config = Object.freeze(config)
 
     this.clientsPromise = this.enforceAllClients()
   }

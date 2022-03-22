@@ -38,7 +38,10 @@ export const enforceCommands = async (
     body: datas.map((data) => data.command),
   })
 
+  // Calling 'off' first ensures that the singleton handler only gets added once
+  // per client.
   client.off('interactionCreate', getSingletonHandler(client, habitat))
+
   client.on('interactionCreate', getSingletonHandler(client, habitat))
 }
 

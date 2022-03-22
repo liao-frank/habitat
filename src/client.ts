@@ -40,7 +40,7 @@ const maybeCreateClient = memoize(
 
     client.login(token)
 
-    // NOTE: Wait for the client to be ready before returning.
+    // Wait for the client to be ready before returning.
     await getClientUser(client)
 
     return client

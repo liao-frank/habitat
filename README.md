@@ -28,9 +28,10 @@ A `HabitatConfig` consists of many `Enforce Data` which each represent a piece o
 
 ```ts
 interface HabitatConfig {
-  clients: EnforceClientData[]
-  channels: EnforceChannelData[]
-  roles: EnforceRoleData[]
+  admin: EnforceClientData[]
+  channels?: EnforceChannelData[]
+  clients?: EnforceClientData[]
+  roles?: EnforceRoleData[]
 }
 ```
 
@@ -42,9 +43,10 @@ For example, the `EnforceClientData` interface is
 
 ```ts
 interface EnforceClientData {
+  commands?: EnforceCommandData[]
   options?: ClientOptions
-  roles?: EnforceRoleData[]
-  presence?: PresenceData
+  presence?: undefined // TODO: PresenceData
+  roles?: undefined // TODO: EnforceRoleData[]
   token: string
   userData?: ClientUserEditData
 }
@@ -52,15 +54,21 @@ interface EnforceClientData {
 
 The fields above encapsulate what is needed to initially create a client and set its appearance.
 
-Note: Enforcement only runs when the server is started and when bots are first added to a server. Client appearances and other data in the server can still be set dynamically. _Habitat.js_ also provides helper methods for more complex bot behavior.
+Note: Enforcement usually only runs when the server is started and when bots are first added to a server. Client appearances and other data in the server can still be set dynamically. _Habitat.js_ also provides helper methods for more complex bot behavior.
 
 ### Client setup
 
-When creating clients in the Discord application portal, you'll need to give the each client the appropriate permissions in order for them to work with _Habitat.js_.
+Bots will need to manage the server and each other, so it will be important to give each client the appropriate scopes/permissions in order for them to work with _Habitat.js_.
+
+The admin client is in charge of managing guild enforcement, or server setup, and needs the following scopes and permissions.
 
 ![Client permissions](docs/permissions.png)
 
-Currently, _Habitat.js_ does not support the ability to narrow the scope of bot functionality i.e. narrowing the amount of permissions required.
+All other clients require the same scopes as the admin client; however, they don't need to ask for any permissions since the admin bot will manage those later.
+
+#### Inviting
+
+After setting up the admin client, invite its bot to your server. From within your server, run the `/setup` command to get help on inviting your other bots.
 
 ## Development
 

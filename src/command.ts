@@ -10,6 +10,7 @@ import { EnforceCommandData } from '@myTypes/enforceData'
 import { Routes } from 'discord-api-types/v9'
 import {
   Client,
+  DiscordAPIError,
   Interaction,
   PermissionResolvable,
   Permissions,
@@ -120,7 +121,24 @@ export const SETUP_COMMAND: EnforceCommandData = {
     const missingUsers = []
 
     for (const user of users) {
-      const missing = !(await guild.members.fetch(user))
+      let missing: boolean
+      try {
+        await guild.members.fetch(user)
+        missing = false
+      } catch (unknownError) {
+        const error = unknownError as DiscordAPIError
+
+        // NOTE(https://discord.com/developers/docs/topics/opcodes-and-status-codes#json): Unknown member error.
+        if (error.code === 10007) {
+          missing = true
+        } else {
+          const message =
+            'An error occurred when looking through the server members for missing bots.'
+          await interaction.editReply(message)
+          return
+        }
+      }
+
       if (missing) {
         missingUsers.push(user)
       }

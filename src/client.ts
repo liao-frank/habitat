@@ -13,13 +13,17 @@ export const enforceClient = async (
   habitat: Habitat
 ): Promise<Client> => {
   const client = await maybeCreateClient(data.token, data.options)
+  const user = await getClientUser(client)
 
   if (data.commands) {
     await enforceCommands(data.commands, client, habitat)
   }
 
+  if (data.presence) {
+    user.setPresence(data.presence)
+  }
+
   if (data.userData) {
-    const user = await getClientUser(client)
     user.edit(data.userData)
   }
 

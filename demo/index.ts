@@ -21,13 +21,11 @@ const habitat = new Habitat({
   },
   clients: [
     {
+      activity: { name: 'the fish market', type: 'WATCHING' },
       token: testToken1,
       userData: {
         username: 'Fish Phisher',
         avatar: fs.readFileSync(new URL(merchantImage)),
-      },
-      presence: {
-        activities: [{ name: 'the fish market', type: 'WATCHING' }],
       },
     },
   ],

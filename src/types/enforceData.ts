@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { Habitat } from '@habitat'
 import {
+  ActivityOptions,
   ClientOptions,
   ClientUserEditData,
   CommandInteraction,
@@ -9,6 +10,7 @@ import {
 } from 'discord.js'
 
 export interface EnforceClientData {
+  activity?: ActivityOptions
   commands?: EnforceCommandData[]
   options?: ClientOptions
   presence?: PresenceData

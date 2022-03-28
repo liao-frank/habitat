@@ -23,6 +23,12 @@ export const enforceClient = async (
     user.setPresence(data.presence)
   }
 
+  // We consider activity to be more specific than presence, so run this
+  // after presence is set.
+  if (data.activity) {
+    user.setActivity(data.activity)
+  }
+
   if (data.userData) {
     user.edit(data.userData)
   }
